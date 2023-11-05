@@ -1,3 +1,7 @@
+// Описаний в документації
+import SimpleLightbox from "simplelightbox";
+// Додатковий імпорт стилів
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 // Add imports above this line
 import { galleryItems } from './gallery-items.js';
@@ -7,7 +11,6 @@ document.body.style.backgroundColor = 'rgba(90, 99, 174, 0.47)';
 const galleryImage = document.querySelector('.gallery');
 const itemsMarkup = createGalleryImageMarkup(galleryItems);
 galleryImage.insertAdjacentHTML('beforeend', itemsMarkup);
-galleryImage.addEventListener('click', onImgClick);
 
 function createGalleryImageMarkup(items) {
   return items
@@ -30,57 +33,18 @@ function createGalleryImageMarkup(items) {
     .join('');
 };
 
-function onImgClick(event) {
-  event.preventDefault();
-  if (event.target.nodeName !== 'IMG') {
-    return;
-  }
+// use library SimpleLightbox
+const lightbox = new SimpleLightbox('.gallery a', {
+  caption: true,
+  captionsData: 'alt',
+  captionDelay: 250,
+});
 
-const instance = basicLightbox.create(
-    `<img src="${event.target.dataset.source}" width="800" height="600" style= "border-radius: 5%; box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
-    10px 10px 20px 0px rgba(70, 79, 157, 0.51), 5px 5px 5px 0px rgba(0, 0, 0, 0.1)">`,
-
-    {
-      onShow: () => {
-        window.addEventListener('keydown', onKeydownEsc);
-      },
-      onClose: () => {
-        window.removeEventListener('keydown', onKeydownEsc);
-      },
-    },
-  );
-
-  const onKeydownEsc = event => {
-    console.log(event.code);
-    if (event.code === 'Escape') {
-      instance.close();
-    }
-  };
-  // window.addEventListener('keydown', onKeydownEsc);
-  // window.removeEventListener('keydown', onKeydownEsc);
-  instance.show();
-}
-/*const instance = basicLightbox.create(
-  `<img width="800" height="600" src="">`,
-  {
-    onShow: (instance) => {
-      window.addEventListener('keydown', onEscKeyPress);
-    },
-    onClose: (instance) => {
-      window.removeEventListener('keydown', onEscKeyPress);
-    },
-  }
-);
-function onImgClick(element) {
-  element.preventDefault();
-  const datasetSource = element.target.dataset.source;
-  if (!datasetSource) return;
-  instance.element().querySelector('img').src = datasetSource;
-  instance.show();
-}
-function onEscKeyPress(e) {
-  if (element.code !== 'Escape') return;
-  instance.close();
-}*/
-
+// use library SimpleLightbox
+/*const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionPosition: 'bottom',
+  captionDelay: 250
+});
+*/
 console.log(galleryItems);
